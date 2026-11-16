@@ -450,7 +450,7 @@ if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-mot
  function startWindows(){show(black);logo.hidden=true;spinner.hidden=true;later(()=>{show(windows);logo.hidden=false;later(()=>{spinner.hidden=false;later(returnToMenu,5000)},1200)},1200)}
  function cancelAuto(){if(autoTimer!==null){clearInterval(autoTimer);autoTimer=null}grubCountdown.hidden=true}
  function showGrub(){show(menu);select(0);let seconds=2;grubCountdown.hidden=false;grubCountdown.textContent='The highlighted entry will be executed automatically in '+seconds+'s.';autoTimer=every(()=>{seconds--;if(seconds<=0){cancelAuto();launch(0)}else grubCountdown.textContent='The highlighted entry will be executed automatically in '+seconds+'s.'},1000)}
- function restartSequence(){cancelAuto();show(ami);later(showGrub,2200)}
+ function restartSequence(){cancelAuto();show(black);later(()=>{show(ami);later(()=>{show(black);later(showGrub,1800)},3500)},2000)}
  power.addEventListener('click',()=>{clear();cancelAuto();powered=!powered;power.setAttribute('aria-pressed',String(powered));power.setAttribute('aria-label',powered?'关机':'开机');power.querySelector('span').textContent=powered?'关机':'开机';back.hidden=true;if(powered)restartSequence();else show(off)});
  show(off);
  function finishClone(){show(countdown);let seconds=3;const render=()=>{document.getElementById('countdown-text').textContent='Clonezilla finished.\n\nThe system will reboot in '+seconds+' seconds...'};render();const tick=every(()=>{seconds--;render();if(seconds<=0){clearInterval(tick);restartSequence()}},1000)}
