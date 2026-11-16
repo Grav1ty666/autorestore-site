@@ -428,7 +428,19 @@ if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-mot
  function restartSequence(){show(ami);later(()=>startWindows(),2800)}
  function finishClone(){show(countdown);let seconds=5;const render=()=>{document.getElementById('countdown-text').textContent='Clonezilla finished.\n\nThe system will reboot in '+seconds+' seconds...'};render();const tick=every(()=>{seconds--;render();if(seconds<=0){clearInterval(tick);restartSequence()}},1000)}
  function startClone(mode){show(clone);clone.classList.add('preparing');document.getElementById('clone-action').textContent=mode==='backup'?'Starting to clone device (/dev/nvme0n1p3) to image (-)':'Starting to restore image (-) to device (/dev/nvme0n1p3)';clone.style.setProperty('--progress','0%');clone.querySelectorAll('.clone-percent').forEach(x=>x.textContent='0.00%');later(()=>{clone.classList.remove('preparing');let progress=0;const total=30000,started=Date.now();const tick=every(()=>{const elapsed=Date.now()-started;progress=Math.min(elapsed/total*100,100);clone.style.setProperty('--progress',progress+'%');clone.querySelectorAll('.clone-percent').forEach(x=>x.textContent=progress.toFixed(2)+'%');const fmt=n=>'00:00:'+String(n).padStart(2,'0');document.getElementById('clone-elapsed').textContent=fmt(Math.floor(elapsed/1000));document.getElementById('clone-remaining').textContent=fmt(Math.max(0,Math.ceil((total-elapsed)/1000)));document.getElementById('clone-block').textContent=Math.floor(26744063*progress/100);if(progress>=100){clearInterval(tick);later(finishClone,1000)}},150)},1500)}
- function bootLogs(mode){show(logs);pre.textContent='';let i=0,ts=0;const rows=[];const tick=every(()=>{for(let n=0;n<2;n++){ts+=.11+((i*17)%9)/100;rows.push('[ '+ts.toFixed(6).padStart(10,' ')+'] '+messages[i%messages.length]);i++}pre.textContent=rows.slice(-34).join('\n');if(i>=140){clearInterval(tick);rows.push('Begin: Mounting root file system ... done.','Starting /usr/sbin/ocs-sr ...','Clonezilla image dir: /home/partimag');pre.textContent=rows.slice(-34).join('\n');later(()=>{show(black);later(()=>startClone(mode),2500)},1200)}},170)}
+ function bootLogs(mode){
+  show(logs);pre.textContent='';let index=0,ts=0;const rows=[];
+  // 不同初始化阶段采用不同间隔和批量，模拟真实设备启动节奏。
+  const bursts=[{count:4,delay:120},{count:9,delay:70},{count:1,delay:1300},{count:7,delay:100},{count:3,delay:320},{count:1,delay:1900},{count:10,delay:80},{count:4,delay:250},{count:1,delay:1200},{count:12,delay:90},{count:2,delay:450}];
+  function nextBurst(){
+   if(index>=140){rows.push('Begin: Mounting root file system ... done.','Starting /usr/sbin/ocs-sr ...','Clonezilla image dir: /home/partimag');pre.textContent=rows.slice(-34).join('\n');later(()=>{show(black);later(()=>startClone(mode),2500)},1200);return}
+   const burst=bursts[Math.floor(index/4)%bursts.length];
+   for(let n=0;n<burst.count&&index<140;n++){ts+=.025+((index*17)%19)/1000;rows.push('[ '+ts.toFixed(6).padStart(10,' ')+'] '+messages[index%messages.length]);index++}
+   pre.textContent=rows.slice(-34).join('\n');
+   ts+=burst.delay/1000;later(nextBurst,burst.delay);
+  }
+  nextBurst();
+ }
  function launch(index){clear();select(index);back.hidden=false;const mode=buttons[index].dataset.boot;if(mode==='windows'){show(windows);logo.hidden=false;spinner.hidden=true;later(()=>{spinner.hidden=false;later(()=>show(login),6500)},2400)}else bootLogs(mode);back.focus()}
  buttons.forEach((b,i)=>{b.addEventListener('focus',()=>select(i));b.addEventListener('click',()=>launch(i))});menu.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();select(selected+(e.key==='ArrowDown'?1:-1));buttons[selected].focus()}});back.addEventListener('click',()=>{clear();show(menu);back.hidden=true;buttons[selected].focus()});
 })();
