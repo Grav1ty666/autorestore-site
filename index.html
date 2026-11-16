@@ -29,12 +29,19 @@
 .console-hint{font-size:13px;color:#a4a6b3;margin-top:20px}
 .strip-inner{font-size:13px;color:#a5a7b2}
 @media(max-width:720px){.product-body{grid-template-columns:1fr;min-height:0}.console{min-height:0;font-size:14px;padding:25px 20px}.console-title{font-size:18px}.console-row{padding:10px 8px}}
+
+/* 交互演示：只改变网页中的状态，不触发系统操作。 */
+.sim-top{display:flex;justify-content:space-between;padding:17px 28px;background:#202c43;color:#b8c5dc;font:12px ui-monospace,Consolas,monospace;letter-spacing:.08em}
+.sim-screen{min-height:360px;background:#0b101b;color:#e4eaf5;padding:36px clamp(22px,5vw,64px);font-family:ui-monospace,Consolas,"Microsoft YaHei",monospace}
+.sim-heading{font-size:21px;font-weight:650}.sim-sub{font-family:-apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif;color:#a4b0c4;font-size:14px;margin:8px 0 25px}
+.sim-options{display:grid;gap:7px}.sim-option{display:flex;align-items:center;gap:14px;width:100%;border:1px solid #303e55;border-radius:4px;background:#121b2b;color:#d9e3f2;text-align:left;font:16px ui-monospace,Consolas,monospace;padding:13px 16px;cursor:pointer}.sim-option.selected,.sim-option:hover,.sim-option:focus-visible{background:#304967;border-color:#86a5d0;color:white;outline:none}.sim-arrow{font-size:22px;line-height:1;color:#a6c4ed}.sim-option small{font:13px -apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif;color:#b8c5d7;margin-left:auto}.sim-foot{margin-top:22px;color:#a4b0c2;font:13px -apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif}
+.sim-loading{min-height:285px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}.sim-loading[hidden]{display:none}.windows-mark{display:grid;grid-template-columns:repeat(2,26px);gap:3px}.windows-mark[hidden]{display:none}.windows-mark i{display:block;width:26px;height:26px;background:#59b8f5}.spinner{width:28px;height:28px;border:2px solid #374356;border-top-color:#e6eefb;border-radius:50%;animation:spin 1s linear infinite}.sim-loading p{color:#c8d2e0;font:14px -apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif}.sim-return{background:transparent;border:1px solid #697a91;border-radius:5px;color:#e5edfa;padding:9px 16px;cursor:pointer}.sim-return:focus-visible{outline:2px solid #aeb7ff;outline-offset:3px}@keyframes spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.spinner{animation:none}}@media(max-width:720px){.sim-top{padding:14px 17px;font-size:10px}.sim-screen{min-height:0;padding:25px 18px}.sim-option{font-size:13px;padding:12px 10px}.sim-option small{font-size:12px}}
 </style></head>
 <body>
 <nav class="wrap nav" aria-label="主导航"><a class="brand" href="#top"><span class="mark">↶</span>AutoRestore</a><div class="navlinks"><a href="#features">功能</a><a href="#backup">镜像管理</a><a href="#steps">使用流程</a></div><div class="navright"><a class="docs" href="https://github.com/Grav1ty666/recovery-backup-os#readme">文档 ↗</a><a class="button small" href="https://files.mali040929.dpdns.org/MyPrograms/RecoveryBackupOS/RecoveryBackupOS-Installer.exe">下载 Windows 版</a></div></nav>
 <header class="hero" id="top"><video class="hero-video" autoplay muted loop playsinline poster="poster.jpg" aria-hidden="true"><source src="demo.mp4" type="video/mp4"></video><div class="wrap hero-inner"><div class="badge"><span class="dot"></span>为 UEFI Windows 设备设计</div><h1><span class="hero-title-line">Windows 预留</span><span class="hero-title-line">独立恢复入口</span></h1><p>在当前系统内部署备份恢复环境。系统崩溃后，从启动菜单直接恢复。</p><div class="actions"><a class="button" href="https://files.mali040929.dpdns.org/MyPrograms/RecoveryBackupOS/RecoveryBackupOS-Installer.exe">下载 AutoRestore <span>↓</span></a><a class="button secondary" href="https://github.com/Grav1ty666/recovery-backup-os#readme">阅读文档 <span>↗</span></a></div><div class="hero-meta"><span>Windows · x86-64</span><span>UEFI / GPT</span><span>基于 Clonezilla</span></div>
 <!-- 示意界面，不代表实际运行结果。 -->
-<div class="product" role="img" aria-label="启动菜单示意：Windows Boot Manager、Recovery OS 和 Backup OS"><div class="bar"><i></i><i></i><i></i><span>AUTORESTORE / BOOT MENU</span></div><div class="product-body"><div class="sidebar"><strong>↶ &nbsp; AutoRestore</strong><div class="side-item active">系统启动</div><div class="side-item">备份与恢复</div><div class="side-item">独立恢复环境</div></div><div class="console"><div class="console-title">选择接下来的操作</div><div class="console-rule"></div><div class="console-row">&gt; &nbsp; <b>Windows Boot Manager</b></div><div class="console-row">&nbsp;&nbsp;&nbsp; Recovery OS</div><div class="console-row">&nbsp;&nbsp;&nbsp; Backup OS</div><div class="console-hint">界面示意 · 实际启动项因设备配置而异</div></div></div></div></div></header>
+<div class="product simulator" id="simulator"><div class="bar"><i></i><i></i><i></i><span>AUTORESTORE / INTERACTIVE DEMO</span></div><div class="sim-top"><span>UEFI BOOT MANAGER</span><span>INTERACTIVE PREVIEW</span></div><div class="sim-screen" id="sim-screen"><div class="sim-menu" id="sim-menu" aria-label="启动菜单演示"><div class="sim-heading">Select a boot option</div><p class="sim-sub">使用 ↑ ↓ 方向键选择，按 Enter 确认；也可以直接点击。</p><div class="sim-options" role="group" aria-label="启动选项"><button class="sim-option selected" type="button" data-boot="windows"><span class="sim-arrow">›</span><span>Windows Boot Manager</span><small>启动系统</small></button><button class="sim-option" type="button" data-boot="recovery"><span class="sim-arrow">›</span><span>Recovery OS</span><small>恢复系统</small></button><button class="sim-option" type="button" data-boot="backup"><span class="sim-arrow">›</span><span>Backup OS</span><small>备份系统</small></button></div><div class="sim-foot">仅为网页交互演示，不会重启电脑或操作磁盘。</div></div><div class="sim-loading" id="sim-loading" hidden aria-live="polite"><div class="windows-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="spinner" aria-hidden="true"></div><p id="sim-message"></p><button type="button" class="sim-return" id="sim-return">返回启动菜单</button></div></div></div></div></header>
 <div class="strip"><div class="wrap strip-inner"><span>Windows system backup</span><span>Independent recovery environment</span><span>Open source</span></div></div>
 <main><section class="section" id="features"><div class="wrap"><div class="section-head"><div><div class="kicker">01 / Designed for recovery</div><h2>一次性部署，<br><span>后续零配置</span></h2></div><p class="lead">部署阶段选定磁盘、确认分区方案，完成后恢复流程无需额外设置。</p></div><div class="features"><article class="feature"><div class="feature-icon">⌘</div><h3>终端部署</h3><p>自动枚举磁盘、检测可用空间，选定目标盘即可完成部署。</p></article><article class="feature"><div class="feature-icon">◷</div><h3>开机即可选择</h3><p>开机进入启动菜单，选择备份、还原，或是正常启动 Windows。</p></article><article class="feature"><div class="feature-icon">▤</div><h3>独立恢复环境</h3><p>Windows 无法启动时，仍可进入恢复环境，还原基准镜像。</p></article></div></div></section>
 <section class="section" id="backup"><div class="wrap split"><div class=""><div class="kicker">02 / Organized by design</div><h2>镜像目录规则化，<br><span>避免误选</span></h2><p>镜像存放于隐藏 BACKUP_OS 分区。首次成功备份生成基准镜像，后续备份按时间戳命名；默认从基准镜像执行还原。</p><a class="textlink" href="https://github.com/Grav1ty666/recovery-backup-os#readme">镜像管理说明 ↗</a></div><div class="panel" aria-label="镜像目录示意"><div class="panel-top"><span>BACKUP_OS / partimag</span><span>目录示意</span></div><div class="folder"><span class="folder-mark">▱</span><div>BACKUP_OS<small>基准镜像</small></div><span class="state">BASELINE</span></div><div class="folder"><span class="folder-mark">▱</span><div>auto_backup_…<small>后续备份</small></div><span class="state">BACKUP</span></div><p class="panel-note">镜像大小由数据量和压缩率决定，以实际生成结果为准。</p></div></div></section>
@@ -50,5 +57,32 @@ if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-mot
   }), {threshold: 0.08});
   elements.forEach(element => { element.classList.add('reveal'); observer.observe(element); });
 }
+</script>
+<script>
+// 菜单键盘事件只在演示控件获得焦点时生效。
+(() => {
+  const menu = document.getElementById('sim-menu');
+  const loading = document.getElementById('sim-loading');
+  const buttons = [...menu.querySelectorAll('.sim-option')];
+  const message = document.getElementById('sim-message');
+  const back = document.getElementById('sim-return');
+  const logo = loading.querySelector('.windows-mark');
+  let selected = 0, timer, startTimer;
+  function select(index) { selected = (index + buttons.length) % buttons.length; buttons.forEach((b, i) => b.classList.toggle('selected', i === selected)); }
+  function launch(index) {
+    select(index); menu.hidden = true; loading.hidden = false;
+    const mode = buttons[index].dataset.boot;
+    logo.hidden = true; message.textContent = '正在模拟重新启动…';
+    back.focus(); clearTimeout(timer); clearTimeout(startTimer);
+    startTimer = setTimeout(() => {
+      logo.hidden = mode !== 'windows';
+      message.textContent = mode === 'windows' ? '正在模拟 Windows 启动…' : mode === 'recovery' ? '正在模拟进入恢复环境…' : '正在模拟进入备份环境…';
+      timer = setTimeout(() => { message.textContent = '演示结束 · 未对电脑执行任何操作'; }, 3000);
+    }, 1000);
+  }
+  buttons.forEach((button, index) => { button.addEventListener('focus', () => select(index)); button.addEventListener('click', () => launch(index)); });
+  menu.addEventListener('keydown', event => { if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); select(selected + (event.key === 'ArrowDown' ? 1 : -1)); buttons[selected].focus(); } });
+  back.addEventListener('click', () => { clearTimeout(timer); clearTimeout(startTimer); loading.hidden = true; menu.hidden = false; buttons[selected].focus(); });
+})();
 </script>
 </body></html>
