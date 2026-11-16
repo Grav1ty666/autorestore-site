@@ -14,6 +14,21 @@
 .hero p{max-width:35em;text-wrap:balance}
 .product{max-width:none}
 @media(max-width:720px){.hero h1{font-size:min(11vw,62px);width:min(100%,6.45em)}}
+
+/* 放大启动菜单示意，提高显示对比度与空间利用率。 */
+.product-body{grid-template-columns:230px 1fr;min-height:360px}
+.bar{height:50px;font-size:13px;color:#a8aab7}
+.sidebar{padding:28px 20px;font-size:15px;color:#adb0bc}
+.sidebar strong{font-size:16px;margin-bottom:25px}
+.side-item{padding:11px 12px}
+.console{padding:35px clamp(26px,4vw,52px);font-size:16px;color:#d0d2dd}
+.console-title{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-size:20px;letter-spacing:.01em;font-weight:600;color:#f2f2f5}
+.console-rule{margin:18px 0}
+.console-row{padding:11px 14px;border-radius:7px}
+.console-row:first-of-type{color:#f7f7fa}
+.console-hint{font-size:13px;color:#a4a6b3;margin-top:20px}
+.strip-inner{font-size:13px;color:#a5a7b2}
+@media(max-width:720px){.product-body{grid-template-columns:1fr;min-height:0}.console{min-height:0;font-size:14px;padding:25px 20px}.console-title{font-size:18px}.console-row{padding:10px 8px}}
 </style></head>
 <body>
 <nav class="wrap nav" aria-label="主导航"><a class="brand" href="#top"><span class="mark">↶</span>AutoRestore</a><div class="navlinks"><a href="#features">功能</a><a href="#backup">镜像管理</a><a href="#steps">使用流程</a></div><div class="navright"><a class="docs" href="https://github.com/Grav1ty666/recovery-backup-os#readme">文档 ↗</a><a class="button small" href="https://files.mali040929.dpdns.org/MyPrograms/RecoveryBackupOS/RecoveryBackupOS-Installer.exe">下载 Windows 版</a></div></nav>
