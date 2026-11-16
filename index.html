@@ -358,6 +358,10 @@
 
 /* 全屏仅放大演示模块，仍保持屏幕内容为 16:9。 */
 .fullscreen-button{display:inline-flex;align-items:center;gap:5px;border:1px solid #484b58;background:transparent;border-radius:5px;color:#d9dbe5;padding:4px 9px;font:12px -apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif;cursor:pointer}.fullscreen-button[hidden]{display:none}.fullscreen-button:hover,.fullscreen-button:focus-visible{background:#30333e;outline:2px solid #aeb7ff;outline-offset:2px}.bar .fullscreen-button span{margin:0}.simulator:fullscreen{width:100vw;max-width:none;height:100vh;margin:0;padding:0;border:0;border-radius:0;background:#000;display:flex;flex-direction:column;justify-content:center}.simulator:fullscreen .bar{position:absolute;left:0;right:0;top:0;z-index:5;background:#101117}.simulator:fullscreen .sim-screen{width:min(100vw,calc((100vh - 50px) * 16 / 9));margin:50px auto 0;flex:none}
+
+/* 启动画面：徽标与加载动画共用水平中心。 */
+.sim-loading .windows-mark{left:50%;top:18%;width:13%;transform:translateX(-50%)}
+.sim-loading .boot-original-loading{left:50%;top:82%;width:3%;transform:translate(-50%,-50%)}
 </style></head>
 <body>
 <nav class="wrap nav" aria-label="主导航"><a class="brand" href="#top"><span class="mark">↶</span>AutoRestore</a><div class="navlinks"><a href="#features">功能</a><a href="#backup">镜像管理</a><a href="#steps">使用流程</a></div><div class="navright"><a class="docs" href="https://github.com/Grav1ty666/recovery-backup-os#readme">文档 ↗</a><a class="button small" href="https://files.mali040929.dpdns.org/MyPrograms/RecoveryBackupOS/RecoveryBackupOS-Installer.exe">下载 Windows 版</a></div></nav>
