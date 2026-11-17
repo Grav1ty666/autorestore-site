@@ -416,8 +416,8 @@
 .sim-ami pre{font-family:EDK2POST,monospace;font-weight:400;font-synthesis:none;letter-spacing:0;text-shadow:none;filter:none;-webkit-font-smoothing:none;font-smooth:never}
 .sim-ami .ami-head{height:auto}.sim-ami .ami-logo{display:block;width:56%;height:auto;aspect-ratio:1024 / 272;object-fit:contain;object-position:left center;transform:none}
 
-/* AMI 自检画面整体纵向拉伸 4/3。 */
-.sim-ami{transform:scaleY(1.333333);transform-origin:top center}
+/* AMI 自检画面横向拉伸 4/3，文字行距收紧。 */
+.sim-ami{width:75%;right:auto;transform:scaleX(1.333333);transform-origin:top left}.sim-ami pre{line-height:1}
 </style></head>
 <body>
 <nav class="wrap nav" aria-label="主导航"><a class="brand" href="#top"><span class="mark">↶</span>Recovery and Backup OS</a><div class="navlinks"><a href="#features">功能</a><a href="#backup">镜像管理</a><a href="#steps">使用流程</a></div><div class="navright"><a class="docs" href="https://github.com/Grav1ty666/recovery-backup-os#readme">文档 ↗</a><a class="button small" href="https://files.mali040929.dpdns.org/MyPrograms/RecoveryBackupOS/RecoveryBackupOS-Installer.exe">下载 Windows 版</a></div></nav>
